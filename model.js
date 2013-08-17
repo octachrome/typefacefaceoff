@@ -1,11 +1,13 @@
-window.tffo = {
+window.tffo = window.tffo || {};
+
+$.extend(tffo, {
 	HOME: 'home',
 	READY: 'ready',
 	QUESTION: 'question',
 	RIGHT: 'right',
 	WRONG: 'wrong',
 	GAME_OVER: 'game_over'
-};
+});
 
 $(document).ready(function() {
 	var Question = function(question, answer) {
@@ -52,14 +54,15 @@ $(document).ready(function() {
 		};
 
 		this.nextQuestion = function() {
-			var answer = this.randomAnswer();
-			this.question(new Question('Test', answer));
+			var phrase = this.randomChoice(tffo.phrases);
+			var answer = this.randomChoice(this.answers);
+			this.question(new Question(phrase, answer));
 			this.state(tffo.QUESTION);
 		};
 
-		this.randomAnswer = function() {
-			var i = Math.floor(Math.random() * this.answers.length);
-			return this.answers[i];
+		this.randomChoice = function(arr) {
+			var i = Math.floor(Math.random() * arr.length);
+			return arr[i];
 		};
 
 		this.home = function() {
