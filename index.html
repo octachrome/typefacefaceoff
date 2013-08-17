@@ -7,47 +7,93 @@
 	<script type="text/javascript" src="phrases.js"></script>
 	<script type="text/javascript" src="model.js"></script>
 	<style type="text/css">
+	body {
+		color: white;
+		background: black;
+		font-family: sans-serif;
+		font-size: 40pt;
+		text-align: center;
+	}
+
+	div.header {
+		height: 100px;
+	}
+
+	div.header td {
+		font-size: 16pt;
+		font-weight: bold;
+		color: #888;
+		text-align: center;
+	}
+
+	div.main {
+		height: 300px;
+	}
+
+	.right {
+		background: #ffc;
+		color: black;
+	}
+
+	.wrong {
+		background: #f00;
+	}
+
+	.wrong div.header td {
+		color: white;
+	}
+
+	button {
+		width: 200px;
+		font-size: 16pt;
+	}
 	</style>
 	<title>Typeface Face Off!</title>
 </head>
-<body>
+<body data-bind="css: { right: state() == tffo.RIGHT, wrong: state() == tffo.WRONG }">
 
-<div data-bind="visible: state() != tffo.HOME">
-	Score: <span data-bind="text: score"></span>
-	Lives: <span data-bind="text: lives"></span>
-</div>
-
-<div data-bind="visible: state() == tffo.HOME">
-	<button type="button" data-bind="click: newGame">New Game</button>
-</div>
-
-<div data-bind="visible: state() == tffo.READY">
-	<button type="button" data-bind="click: nextQuestion">Go!</button>
+<div class="header">
+	<table width="100%" data-bind="visible: state() != tffo.HOME &amp;&amp; state() != tffo.GAME_OVER">
+		<tr>
+			<td width="50%">Score: <span data-bind="text: score"></span></td>
+			<td width="50%">Lives: <span data-bind="text: lives"></span></td>
+		</tr>
+	</table>
 </div>
 
 <div data-bind="visible: state() == tffo.QUESTION">
-	<span data-bind="text: question().question, style: {fontFamily: question().answer.typeface}"></span>
-	<br/>
+	<div class="main" data-bind="text: question().question, style: {fontFamily: question().answer.typeface}"></div>
 	<div data-bind="foreach: answers">
 		<button type="button" data-bind="text: typeface, click: click"></button>
 	</div>
 </div>
 
+<div data-bind="visible: state() == tffo.HOME">
+	<div class="main">Typeface face off!</div>
+	<button type="button" data-bind="click: newGame">New Game</button>
+</div>
+
+<div data-bind="visible: state() == tffo.READY">
+	<div class="main"></div>
+	<button type="button" data-bind="click: nextQuestion">Go!</button>
+</div>
+
 <div data-bind="visible: state() == tffo.RIGHT">
-	100 points
-	<br/>
+	<div class="main" data-bind="style: {fontFamily: question().answer.typeface}">100 points</div>
 	<button type="button" data-bind="click: nextQuestion">Next</button>
 </div>
 
 <div data-bind="visible: state() == tffo.WRONG">
-	1 life lost
-	<br/>
+	<div class="main" data-bind="style: {fontFamily: question().answer.typeface}">1 life lost</div>
 	<button type="button" data-bind="click: nextQuestion">Next</button>
 </div>
 
 <div data-bind="visible: state() == tffo.GAME_OVER">
+	<div class="main">
 	Game Over
-	<br/>
+	<br/><br/>
+	Score: <span data-bind="text: score"></span>
+	</div>
 	<button type="button" data-bind="click: home">Home</button>
 </div>
 
