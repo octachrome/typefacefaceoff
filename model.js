@@ -1,5 +1,6 @@
 window.tffo = {
-	START: 'start',
+	HOME: 'home',
+	READY: 'ready',
 	QUESTION: 'question',
 	RIGHT: 'right',
 	WRONG: 'wrong',
@@ -25,7 +26,7 @@ $(document).ready(function() {
 		this.typefaces = ['Arial', 'Verdana'];
 		this.score = ko.observable();
 		this.lives = ko.observable();
-		this.state = ko.observable(tffo.START);
+		this.state = ko.observable(tffo.HOME);
 		this.question = ko.observable(new Question("", new Answer()));
 		var vm = this;
 		this.answers = $.map(this.typefaces, function(typeface) { return new Answer(vm, typeface); });
@@ -33,7 +34,7 @@ $(document).ready(function() {
 		this.newGame = function() {
 			this.lives(3);
 			this.score(0);
-			this.nextQuestion();
+			this.state(tffo.READY);
 		};
 
 		this.answerClicked = function(answer) {
@@ -62,7 +63,7 @@ $(document).ready(function() {
 		};
 
 		this.home = function() {
-			this.state(tffo.START);
+			this.state(tffo.HOME);
 		};
 	};
 

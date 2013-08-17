@@ -7,16 +7,21 @@
 	<script type="text/javascript" src="model.js"></script>
 	<style type="text/css">
 	</style>
+	<title>Typeface Face Off!</title>
 </head>
 <body>
 
-<div data-bind="visible: state() != tffo.START">
+<div data-bind="visible: state() != tffo.HOME">
 	Score: <span data-bind="text: score"></span>
 	Lives: <span data-bind="text: lives"></span>
 </div>
 
-<div data-bind="visible: state() == tffo.START">
+<div data-bind="visible: state() == tffo.HOME">
 	<button type="button" data-bind="click: newGame">New Game</button>
+</div>
+
+<div data-bind="visible: state() == tffo.READY">
+	<button type="button" data-bind="click: nextQuestion">Go!</button>
 </div>
 
 <div data-bind="visible: state() == tffo.QUESTION">
@@ -28,13 +33,13 @@
 </div>
 
 <div data-bind="visible: state() == tffo.RIGHT">
-	RIGHT
+	100 points
 	<br/>
 	<button type="button" data-bind="click: nextQuestion">Next</button>
 </div>
 
 <div data-bind="visible: state() == tffo.WRONG">
-	WRONG
+	1 life lost
 	<br/>
 	<button type="button" data-bind="click: nextQuestion">Next</button>
 </div>
