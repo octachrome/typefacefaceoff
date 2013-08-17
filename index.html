@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="libs/jquery-1.6.3.min.js"></script>
+	<script type="text/javascript" src="libs/jquery.tmpl.min.js"></script>
+	<script type="text/javascript" src="libs/knockout-2.3.0.min.js"></script>
+	<script type="text/javascript" src="model.js"></script>
+	<style type="text/css">
+	</style>
+</head>
+<body>
+
+<div data-bind="visible: state() != tffo.START">
+	Score: <span data-bind="text: score"></span>
+	Lives: <span data-bind="text: lives"></span>
+</div>
+
+<div data-bind="visible: state() == tffo.START">
+	<button type="button" data-bind="click: newGame">New Game</button>
+</div>
+
+<div data-bind="visible: state() == tffo.QUESTION">
+	<span data-bind="text: question().question"></span>
+	<br/>
+	<div data-bind="foreach: answers">
+		<button type="button" data-bind="text: name, click: click"></button>
+	</div>
+</div>
+
+<div data-bind="visible: state() == tffo.RIGHT">
+	RIGHT
+	<br/>
+	<button type="button" data-bind="click: nextQuestion">Next</button>
+</div>
+
+<div data-bind="visible: state() == tffo.WRONG">
+	WRONG
+	<br/>
+	<button type="button" data-bind="click: nextQuestion">Next</button>
+</div>
+
+<div data-bind="visible: state() == tffo.GAME_OVER">
+	Game Over
+	<br/>
+	<button type="button" data-bind="click: home">Home</button>
+</div>
+
+</body>
+</html>
