@@ -11,7 +11,7 @@
 		color: white;
 		background: black;
 		font-family: sans-serif;
-		font-size: 40pt;
+		font-size: 50pt;
 		text-align: center;
 	}
 
@@ -20,9 +20,9 @@
 	}
 
 	div.header td {
+		color: white;
 		font-size: 16pt;
 		font-weight: bold;
-		color: #888;
 		text-align: center;
 	}
 
@@ -30,17 +30,12 @@
 		height: 300px;
 	}
 
-	.right {
-		background: #ffc;
-		color: black;
+	body.right {
+		background: #EECD8D;
 	}
 
-	.wrong {
+	body.wrong {
 		background: #f00;
-	}
-
-	.wrong div.header td {
-		color: white;
 	}
 
 	button {
@@ -50,7 +45,7 @@
 	</style>
 	<title>Typeface Face Off!</title>
 </head>
-<body data-bind="css: { right: state() == tffo.RIGHT, wrong: state() == tffo.WRONG }">
+<body data-bind="css: { right: state() == tffo.RIGHT || state() == tffo.GAME_OVER, wrong: state() == tffo.WRONG }">
 
 <div class="header">
 	<table width="100%" data-bind="visible: state() != tffo.HOME &amp;&amp; state() != tffo.GAME_OVER">
