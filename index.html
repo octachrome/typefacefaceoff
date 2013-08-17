@@ -20,10 +20,10 @@
 </div>
 
 <div data-bind="visible: state() == tffo.QUESTION">
-	<span data-bind="text: question().question"></span>
+	<span data-bind="text: question().question, style: {fontFamily: question().answer.typeface}"></span>
 	<br/>
 	<div data-bind="foreach: answers">
-		<button type="button" data-bind="text: name, click: click"></button>
+		<button type="button" data-bind="text: typeface, click: click"></button>
 	</div>
 </div>
 

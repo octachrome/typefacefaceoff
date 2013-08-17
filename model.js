@@ -12,9 +12,9 @@ $(document).ready(function() {
 		this.answer = answer;
 	};
 
-	var Answer = function(vm, name) {
+	var Answer = function(vm, typeface) {
 		this.vm = vm;
-		this.name = name;
+		this.typeface = typeface;
 
 		this.click = function() {
 			this.vm.answerClicked(this);
@@ -22,14 +22,13 @@ $(document).ready(function() {
 	};
 
 	var ViewModel = function() {
+		this.typefaces = ['Arial', 'Verdana'];
 		this.score = ko.observable();
 		this.lives = ko.observable();
 		this.state = ko.observable(tffo.START);
-		this.question = ko.observable(new Question());
-		this.answers = [
-			new Answer(this, 'A1'),
-			new Answer(this, 'A2')
-		];
+		this.question = ko.observable(new Question("", new Answer()));
+		var vm = this;
+		this.answers = $.map(this.typefaces, function(typeface) { return new Answer(vm, typeface); });
 
 		this.newGame = function() {
 			this.lives(3);
@@ -52,8 +51,14 @@ $(document).ready(function() {
 		};
 
 		this.nextQuestion = function() {
-			this.question(new Question('test', this.answers[0]));
+			var answer = this.randomAnswer();
+			this.question(new Question('Test', answer));
 			this.state(tffo.QUESTION);
+		};
+
+		this.randomAnswer = function() {
+			var i = Math.floor(Math.random() * this.answers.length);
+			return this.answers[i];
 		};
 
 		this.home = function() {
