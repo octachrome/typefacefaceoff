@@ -16,14 +16,31 @@
 	}
 
 	div.header {
-		height: 100px;
-	}
-
-	div.header td {
 		color: white;
 		font-size: 16pt;
 		font-weight: bold;
-		text-align: center;
+		padding: 10px 0;
+		text-align: left;
+	}
+
+	div.timer_frame {
+		position: fixed;
+		bottom: 0;
+		color: #EECD8D;
+		font-size: 16pt;
+		width: 100%;
+		padding: 10px 0;
+		background: #444;
+	}
+
+	div#timer_bar {
+		position: absolute;
+		z-index: -1;
+		top: 0;
+		left: 0;
+		width: 50%;
+		height: 50px;
+		background: #888;
 	}
 
 	div.main {
@@ -48,19 +65,15 @@
 <body data-bind="css: { right: state() == tffo.RIGHT || state() == tffo.GAME_OVER, wrong: state() == tffo.WRONG }">
 
 <div class="header">
-	<table width="100%" data-bind="visible: state() != tffo.HOME &amp;&amp; state() != tffo.GAME_OVER">
-		<tr>
+	<table width="50%">
+		<tr data-bind="visible: !showHeader()">
+			<td>&nbsp;</td>
+		</tr>
+		<tr data-bind="visible: showHeader()">
 			<td width="50%">Score: <span data-bind="text: score"></span></td>
 			<td width="50%">Lives: <span data-bind="text: lives"></span></td>
 		</tr>
 	</table>
-</div>
-
-<div data-bind="visible: state() == tffo.QUESTION">
-	<div class="main" data-bind="text: question().question, style: {fontFamily: question().answer.typeface}"></div>
-	<div data-bind="foreach: answers">
-		<button type="button" data-bind="text: typeface, click: click"></button>
-	</div>
 </div>
 
 <div data-bind="visible: state() == tffo.HOME">
@@ -73,8 +86,27 @@
 	<button type="button" data-bind="click: nextQuestion">Go!</button>
 </div>
 
+<div data-bind="visible: state() == tffo.QUESTION">
+	<div class="main" data-bind="text: question().question, style: {fontFamily: question().answer.typeface}"></div>
+	<div data-bind="foreach: answers">
+		<button type="button" data-bind="text: typeface, click: click"></button>
+	</div>
+	<div class="timer_frame">
+		<div id="timer_bar"></div>
+		<table width="100%">
+			<tr>
+				<td width="33%">100</td>
+				<td width="33%">50</td>
+				<td width="34%">25</td>
+			</tr>
+		</table>
+	</div>
+</div>
+
 <div data-bind="visible: state() == tffo.RIGHT">
-	<div class="main" data-bind="style: {fontFamily: question().answer.typeface}">100 points</div>
+	<div class="main" data-bind="style: {fontFamily: question().answer.typeface}">
+		<span data-bind="text: questionScore"></span> points
+	</div>
 	<button type="button" data-bind="click: nextQuestion">Next</button>
 </div>
 

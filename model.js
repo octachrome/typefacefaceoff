@@ -27,8 +27,12 @@ $(document).ready(function() {
 	var ViewModel = function() {
 		this.typefaces = ['Arial', 'Verdana'];
 		this.score = ko.observable();
+		this.questionScore = ko.observable();
 		this.lives = ko.observable();
 		this.state = ko.observable(tffo.HOME);
+		this.showHeader = ko.computed(function() {
+			return this.state() != tffo.HOME && this.state() != tffo.GAME_OVER;
+		}, this);
 		this.question = ko.observable(new Question("", new Answer()));
 		var vm = this;
 		this.answers = $.map(this.typefaces, function(typeface) { return new Answer(vm, typeface); });
@@ -40,25 +44,67 @@ $(document).ready(function() {
 		};
 
 		this.answerClicked = function(answer) {
+			$('div#timer_bar').stop();
+
 			if (this.question().answer == answer) {
-				this.score(this.score() + 100);
-				this.state(tffo.RIGHT);
+				this.rightAnswer();
 			} else {
-				this.lives(this.lives() - 1);
-				if (this.lives()) {
-					this.state(tffo.WRONG);
-				} else {
-					this.state(tffo.GAME_OVER);
-				}
+				this.wrongAnswer();
 			}
 		};
+
+		this.rightAnswer = function() {
+			this.scoreThisQuestion();
+			this.score(this.score() + this.questionScore());
+			this.state(tffo.RIGHT);
+		};
+
+		this.wrongAnswer = function() {
+			this.lives(this.lives() - 1);
+			if (this.lives()) {
+				this.state(tffo.WRONG);
+			} else {
+				this.state(tffo.GAME_OVER);
+			}
+		};
+
+		this.scoreThisQuestion = function() {
+			if (this.timerProgress < 33) {
+				this.questionScore(100);
+			} else if (this.timerProgress < 66) {
+				this.questionScore(50);
+			} else {
+				this.questionScore(25);
+			}
+		}
 
 		this.nextQuestion = function() {
 			var phrase = this.randomChoice(tffo.phrases);
 			var answer = this.randomChoice(this.answers);
 			this.question(new Question(phrase, answer));
+			this.animateTimerBar();
 			this.state(tffo.QUESTION);
 		};
+
+		this.animateTimerBar = function() {
+			$('div#timer_bar').width(0)
+				.animate({ width: '100%'}, {
+					duration: 5000,
+					easing: 'linear',
+					step: $.proxy(this.onTimerStep, this),
+					complete: $.proxy(this.onTimerFinished, this)
+				});
+		};
+
+		this.onTimerStep = function(progress) {
+			this.timerProgress = progress;
+		};
+
+		this.onTimerFinished = function() {
+			if (this.state() == tffo.QUESTION) {
+				this.wrongAnswer();
+			}
+		}
 
 		this.randomChoice = function(arr) {
 			var i = Math.floor(Math.random() * arr.length);
