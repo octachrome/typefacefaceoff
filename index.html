@@ -57,6 +57,10 @@
 		height: 300px;
 	}
 
+	div.about {
+		font-size: 16pt;
+	}
+
 	div.new_game {
 		height: 300px;
 		font-size: 20pt;
@@ -93,9 +97,29 @@
 	</table>
 </div>
 
-<div data-bind="visible: state() == tffo.HOME">
+<!-- <div data-bind="visible: state() == tffo.HOME">
 	<div class="main">Typeface face off!</div>
 	<button type="button" data-bind="click: newGame">New Game</button>
+</div>
+ -->
+
+<div data-bind="visible: state() == tffo.HOME">
+	<div class="main">
+		Typeface face off!
+		<br/>
+		<br/>
+		<div class="about">Shamelessly copied from
+			<a href="https://itunes.apple.com/gb/app/helvetica-vs.-arial/id399208618?mt=8">Helvetica vs. Arial</a>
+			by Stephan Widor
+		</div>
+		<div class="about">Written for the web by
+			<a href="https://plus.google.com/113687283894322412912">Chris Brown</a>
+		</div>
+		<div class="about">Source on
+			<a href="https://github.com/octachrome/typefacefaceoff">GitHub</a>
+		</div>
+	</div>
+	<button type="button" data-bind="click: home">Home</button>
 </div>
 
 <div data-bind="visible: state() == tffo.READY">
