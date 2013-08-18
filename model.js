@@ -25,7 +25,8 @@ $(document).ready(function() {
 	};
 
 	var ViewModel = function() {
-		this.typefaces = ['Arial', 'Verdana'];
+		this.font1 = ko.observable('Arial');
+		this.font2 = ko.observable('Verdana');
 		this.score = ko.observable();
 		this.questionScore = ko.observable();
 		this.lives = ko.observable();
@@ -34,13 +35,20 @@ $(document).ready(function() {
 			return this.state() != tffo.HOME && this.state() != tffo.GAME_OVER;
 		}, this);
 		this.question = ko.observable(new Question("", new Answer()));
-		var vm = this;
-		this.answers = $.map(this.typefaces, function(typeface) { return new Answer(vm, typeface); });
+		this.answers = ko.observableArray();
 
 		this.newGame = function() {
 			this.lives(3);
 			this.score(0);
 			this.state(tffo.READY);
+		};
+
+		this.play = function() {
+			var typefaces = [this.font1(), this.font2()].sort();
+			var vm = this;
+			var answers = $.map(typefaces, function(typeface) { return new Answer(vm, typeface); })
+			this.answers(answers);
+			this.nextQuestion();
 		};
 
 		this.answerClicked = function(answer) {
@@ -80,7 +88,7 @@ $(document).ready(function() {
 
 		this.nextQuestion = function() {
 			var phrase = this.randomChoice(tffo.phrases);
-			var answer = this.randomChoice(this.answers);
+			var answer = this.randomChoice(this.answers());
 			this.question(new Question(phrase, answer));
 			this.animateTimerBar();
 			this.state(tffo.QUESTION);

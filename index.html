@@ -57,6 +57,13 @@
 		height: 300px;
 	}
 
+	div.new_game {
+		height: 300px;
+		font-size: 20pt;
+		line-height: 40pt;
+		padding-top: 20px;
+	}
+
 	body.right {
 		background: #EECD8D;
 	}
@@ -92,8 +99,12 @@
 </div>
 
 <div data-bind="visible: state() == tffo.READY">
-	<div class="main"></div>
-	<button type="button" data-bind="click: nextQuestion">Go!</button>
+	<div class="new_game">
+		Enter two fonts available on your computer<br/>
+		Font 1 <input data-bind="value: font1"></input><br/>
+		Font 2 <input data-bind="value: font2"></input><br/>
+	</div>
+	<button type="button" data-bind="click: play">Go!</button>
 </div>
 
 <div data-bind="visible: state() == tffo.QUESTION">
