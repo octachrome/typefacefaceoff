@@ -17,6 +17,7 @@
 		}
 	</script>
 	<link rel="stylesheet" type="text/css" href="tffo.css"></link>
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Libre+Baskerville">
 	<title>Typeface Face Off!</title>
 </head>
 <body data-bind="css: { right: state() == tffo.RIGHT || state() == tffo.GAME_OVER, wrong: state() == tffo.WRONG }">
@@ -54,7 +55,16 @@
 
 <div data-bind="visible: state() == tffo.READY">
 	<div class="new_game">
-		Enter two fonts available on your computer<br/>
+		<span class="header">Pick a face off</span>
+		<br/><br/>
+		<div data-bind="foreach: presets">
+			<a href="#" data-bind="click: click">
+				<span data-bind="text: font1"></span> vs. <span data-bind="text: font2"></span><br/>
+			</a>
+		</div>
+		<br/>
+		<span class="header">Or enter any two fonts available on your computer</span>
+		<br/><br/>
 		Font 1 <input data-bind="value: font1"></input><br/>
 		Font 2 <input data-bind="value: font2"></input><br/>
 	</div>

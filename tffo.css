@@ -44,9 +44,12 @@ div.about {
 
 div.new_game {
 	height: 280px;
-	font-size: 20pt;
-	line-height: 40pt;
+	font-size: 16pt;
 	padding-top: 20px;
+}
+
+span.header {
+	font-size: 20pt;
 }
 
 body.right {

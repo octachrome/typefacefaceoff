@@ -24,9 +24,24 @@ $(document).ready(function() {
 		};
 	};
 
+	var Preset = function(vm, font1, font2) {
+		this.font1 = font1;
+		this.font2 = font2;
+		this.click = function() {
+			vm.preset(font1, font2);
+		};
+	};
+
 	var ViewModel = function() {
-		this.font1 = ko.observable('Arial');
-		this.font2 = ko.observable('Verdana');
+		var vm = this;
+
+		this.presets = [
+			new Preset(vm, 'Arial', 'Verdana'),
+			new Preset(vm, 'Times New Roman', 'Libre Baskerville')
+		];
+
+		this.font1 = ko.observable();
+		this.font2 = ko.observable();
 		this.score = ko.observable();
 		this.questionScore = ko.observable();
 		this.lives = ko.observable();
@@ -37,6 +52,11 @@ $(document).ready(function() {
 		this.question = ko.observable(new Question("", new Answer()));
 		this.answers = ko.observableArray();
 
+		this.preset = function(font1, font2) {
+			this.font1(font1);
+			this.font2(font2);
+		};
+
 		this.newGame = function() {
 			this.lives(3);
 			this.score(0);
@@ -45,7 +65,6 @@ $(document).ready(function() {
 
 		this.play = function() {
 			var typefaces = [this.font1(), this.font2()].sort();
-			var vm = this;
 			var answers = $.map(typefaces, function(typeface) { return new Answer(vm, typeface); })
 			this.answers(answers);
 			this.nextQuestion();
@@ -122,6 +141,8 @@ $(document).ready(function() {
 		this.home = function() {
 			this.state(tffo.HOME);
 		};
+
+		this.presets[0].click();
 	};
 
 	ko.applyBindings(new ViewModel());
